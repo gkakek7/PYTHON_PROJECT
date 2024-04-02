@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+	function fn_list() {
+		var params = {menu:"탕수육"};
+		axios({
+			  url: "/emp_list",
+			  method: "post",
+			  data: params
+		}).then(function (res) {
+			var list = res.data.emps;
+			var obj_tbody = document.getElementById("my_tbody");
+			
+			var html = "";
+			
+			for(var i=0; i<list.length;i++) {
+				var e_id = list[i].e_id;
+				var e_name = list[i].e_name;
+				var gen = list[i].gen;
+				var addr = list[i].addr;
+				html+=`
+					<tr>
+						<td>${e_id}</td>
+						<td>${e_name}</td>
+						<td>${gen}</td>
+						<td>${addr}</td>
+					</tr>
+				`;
+			}
+			obj_tbody.innerHTML = html;
+		});
+	}
+	function fn_mod() {
+		var params = {
+			e_id : document.getElementById("e_id").value,
+			e_name : document.getElementById("e_name").value,
+			gen : document.getElementById("gen").value,
+			addr : document.getElementById("addr").value
+		};
+		axios({
+			  url: "/emp_mod",
+			  method: "post",
+			  data: params
+		}).then(function (res) {
+			fn_list();
+			console.log(res.data);
+		});
+	}
+	function fn_del() {
+		var params = {
+			e_id : document.getElementById("e_id").value,
+		};
+		axios({
+			  url: "/emp_del",
+			  method: "post",
+			  data: params
+		}).then(function (res) {
+			fn_list();
+			console.log(res.data);
+		});
+	}
+	function fn_add() {
+		var params = {
+			e_id : document.getElementById("e_id").value,
+			e_name : document.getElementById("e_name").value,
+			gen : document.getElementById("gen").value,
+			addr : document.getElementById("addr").value
+		};
+		axios({
+			  url: "/emp_add",
+			  method: "post",
+			  data: params
+		}).then(function (res) {
+			fn_list();
+			console.log(res.data);
+		});
+	}
+</script>
+</head>
+
+
+<body onload="fn_list()">
+EMP
+<table border="1px">
+	<thead>
+		<tr>
+			<td>사번</td>
+			<td>이름</td>
+			<td>성별</td>
+			<td>주소</td>
+		</tr>
+	</thead>
+	<tbody id="my_tbody">
+	
+	</tbody>
+</table>
+
+<table border="1px">
+	<tr>
+		<td>사번</td>
+		<td>
+			<input type="text" id="e_id"/>
+		</td>
+	</tr>
+	<tr>
+		<td>이름</td>
+		<td>
+			<input type="text" id="e_name"/>
+		</td>
+	</tr>
+	<tr>
+		<td>성별</td>
+		<td>
+			<input type="text" id="gen"/>
+		</td>
+	</tr>
+	<tr>
+		<td>주소</td>
+		<td>
+			<input type="text" id="addr"/>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<input type="button" value="추가" onclick="fn_add()"/>
+			<input type="button" value="수정" onclick="fn_mod()"/>
+			<input type="button" value="삭제" onclick="fn_del()"/>
+	</tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="jquery-3.7.1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+
+function my_axios() {
+	var params={menu:'탕수육'}
+	axios({
+		url: "/axios", // 요청 주소
+		method: "post", // 요청 방식
+		data: params // 제공 데이터(body)
+	}).then(function (response) { 
+		console.log(response.data.result)
+  	});
+}
+
+</script>
+</head>
+<body>
+<a href="javascript:my_axios()">axios</a>
+</body>
+</html>

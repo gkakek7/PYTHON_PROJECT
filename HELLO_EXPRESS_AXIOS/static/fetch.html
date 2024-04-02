@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+function my_fetch(){
+	fetch('/fetch',{
+		method:'POST',
+		headers:{
+			"Accept":"application/json",
+			"Content-Type": "application/json"
+		},
+		body:JSON.stringify({
+			menu:"짬뽕"
+		})
+	}
+	).then(res=>{
+		if(res.ok){
+			return res.json()
+		}else{
+			throw new Error(`상태코드 ${res.status}발생`,{cause:res})
+		}
+	}).then(jsonObj=>{
+		console.log(jsonObj)
+	}).catch(err=>{
+		console.log(err)
+	})
+}
+</script>
+</head>
+<body>
+<a href="javascript:my_fetch()">fetch</a>
+</body>
+</html>
