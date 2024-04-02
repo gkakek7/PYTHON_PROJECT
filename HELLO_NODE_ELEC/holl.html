@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>홀짝</title>
+</head>
+<script>
+	function myclick(){
+		var obj_mine =document.getElementById("it_mine");
+		var obj_com = document.getElementById("it_com");
+		var obj_result = document.getElementById("it_result");
+		var mine=obj_mine.value;
+		var com='';
+		var result='';
+		
+		var rnd = Math.random();
+		
+		if(rnd>0.5){
+			com="홀"
+		}else{
+			com="짝"
+		}
+		
+		if(com==mine){
+			result="이김"
+		}else{
+			result="짐"
+		}
+		obj_com.value=com;
+		obj_result.value=result;
+	}
+</script>
+<body>
+	<table border="1px">
+		<tr>
+			<td>나:</td>
+			<td>
+				<input id="it_mine" type="text"/>
+			</td>
+		</tr>	
+		<tr>
+			<td>컴:</td>
+			<td>
+				<input id="it_com" type="text"/>
+			</td>
+		</tr>	
+		<tr>
+			<td>결과:</td>
+			<td>
+				<input id="it_result" type="text"/>
+			</td>
+		</tr>	
+		<tr>
+			<td colspan="2">
+				<input value="게임하기" type="button" id="btn" onclick="myclick()"/>
+			</td>
+		</tr>	
+	</table>
+</body>
+</html>

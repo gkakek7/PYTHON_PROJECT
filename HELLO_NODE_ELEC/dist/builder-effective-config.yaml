@@ -1,0 +1,7 @@
+directories:
+  output: dist
+  buildResources: build
+win:
+  icon: ''
+files: []
+electronVersion: 12.2.3
