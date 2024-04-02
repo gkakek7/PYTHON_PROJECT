@@ -1,0 +1,22 @@
+OCR 
+1) pip install pytesseract [  pytesseract-0.3.10]
+참고 사이트 
+https://pypi.org/project/pytesseract/
+
+2) 윈도우 tesseract 사이트 
+https://github.com/UB-Mannheim/tesseract/wiki
+
+3) OCR 환경변수 설정
+https://joyhong.tistory.com/79
+
+**** 한글 전처리  
+https://wikidocs.net/92961
+
+언어 데이터 학습
+https://jongwony.github.io/blog/posts/2017-04-26-ocr-training/
+
+Perspective Transform
+이미지 전처리
+
+/// pdf 에서 텍스트 추출 
+https://wooiljeong.github.io/python/pdf-to-text/
