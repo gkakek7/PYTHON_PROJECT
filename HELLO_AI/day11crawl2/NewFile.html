@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<script src="jquery-3.7.1.js"></script>
+<script>
+	function fn_list() {
+		var param = "";
+		param += "dummy=" + Math.random();
+		param += "&domain_url=hello";
+		$.ajax({
+			url : "emp_list",
+			data : param,
+			dataType : "json",
+			type : "post",
+			async : true,
+			success : function(res) {
+				// 				let tbody=document.querySelector("#my_tbody")
+				// 				for(let i=0; i<res.length;i++){
+				// 					let td_id = document.createElement('td');	
+				// 					td_id.innerText=res[i].e_id;
+				// 					let td_name = document.createElement('td');	
+				// 					td_name.innerText=res[i].e_name;
+				// 					let td_gen = document.createElement('td');	
+				// 					td_gen.innerText=res[i].gen;
+				// 					let td_addr = document.createElement('td');	
+				// 					td_addr.innerText=res[i].addr;
+				// 					let tr=document.createElement("tr")
+				// 					tbody.appendChild(tr);
+				// 					tbody.appendChild(td_id)
+				// 					tbody.appendChild(td_name)
+				// 					tbody.appendChild(td_gen)
+				// 					tbody.appendChild(td_addr)
+				// 				}
+				var list = res;
+				var txt = "";
+				for (var i = 0; i < list.length; i++) {
+					var e = list[i];
+					txt += "<tr>";
+					txt += "<td><a href='javascript:fn_one(\"" + e.e_id
+							+ "\")'>" + e.e_id + "</a></td>"
+					txt += "<td>" + e.e_name + "</td>"
+					txt += "<td>" + e.gen + "</td>"
+					txt += "<td>" + e.addr + "</td>"
+					txt += "<tr>";
+				}
+				$("#my_tbody").html(txt);
+			}
+		});
+	}
+	function fn_one(id) {
+		var param = "";
+		param += "&e_id=" + id;
+		$.ajax({
+			url : "emp_one",
+			data : param,
+			dataType : "json",
+			type : "POST",
+			async : true,
+			success : function(res) {
+				$("#e_id").val(res.e_id);
+				$("#e_name").val(res.e_name);
+				$("#gen").val(res.gen);
+				$("#addr").val(res.addr);
+			}
+		});
+	}
+	function fn_add() {
+		console.log("추가")
+		var param = "";
+		param += "&e_id=" + $("#e_id").val();
+		param += "&e_name=" + $("#e_name").val();
+		param += "&gen=" + $("#gen").val();
+		param += "&addr=" + $("#addr").val();
+		$.ajax({
+			url : "emp_add",
+			data : param,
+			dataType : "json",
+			type : "POST",
+			async : true,
+			success : function(res) {
+				var cnt = res;
+				if (cnt == 1) {
+					alert("추가성공")
+					fn_list();
+				} else {
+					alert("추가도중 문제 발생")
+				}
+			}
+		});
+	}
+	function fn_del() {
+		console.log("삭제")
+		var param = "";
+		param += "&e_id=" + $("#e_id").val();
+		$.ajax({
+			url : "emp_del",
+			data : param,
+			dataType : "json",
+			type : "POST",
+			async : true,
+			success : function(res) {
+				var cnt = res;
+				if (cnt == 1) {
+					alert("삭세성공")
+					fn_list();
+					$("#e_id").val("");
+					$("#e_name").val("");
+					$("#gen").val("");
+					$("#addr").val("");
+				} else {
+					alert("삭제도중 문제 발생")
+				}
+			}
+		});
+	}
+	function fn_mod() {
+		console.log("수정")
+		var param = "";
+		param += "&e_id=" + $("#e_id").val();
+		param += "&e_name=" + $("#e_name").val();
+		param += "&gen=" + $("#gen").val();
+		param += "&addr=" + $("#addr").val();
+		$.ajax({
+			url : "emp_mod",
+			data : param,
+			dataType : "json",
+			type : "POST",
+			async : true,
+			success : function(res) {
+				var cnt = res;
+				if (cnt == 1) {
+					fn_list();
+					$("#e_id").val("");
+					$("#e_name").val("");
+					$("#gen").val("");
+					$("#addr").val("");
+				} else {
+					alert("수정도중 문제 발생")
+				}
+			}
+		});
+	}
+	$(document).ready(function() {
+		$("#btn_add").on("click", function(event) {
+			fn_add()
+		});
+	});
+	$(document).ready(function() {
+		$("#btn_mod").on("click", function(event) {
+			fn_mod()
+		});
+	});
+	$(document).ready(function() {
+		$("#btn_del").on("click", function(event) {
+			fn_del()
+		});
+	});
+	$(document).ready(function() {
+		fn_list()
+	});
+</script>
+<body>
+	EMP CRUD
+	<br>
+	<table border=1>
+		<thead>
+			<tr>
+				<td>사번</td>
+				<td>이름</td>
+				<td>성별</td>
+				<td>주소</td>
+			</tr>
+		<thead>
+		<tbody id="my_tbody">
+		<tbody>
+	</table>
+	<table border=1>
+		<tr>
+			<td>사번</td>
+			<td><input type="text" id="e_id"></td>
+		</tr>
+		<tr>
+			<td>이름</td>
+			<td><input type="text" id="e_name"></td>
+		</tr>
+		<tr>
+			<td>성별</td>
+			<td><input type="text" id="gen"></td>
+		</tr>
+		<tr>
+			<td>주소</td>
+			<td><input type="text" id="addr"></td>
+		</tr>
+		<tr>
+			<td colspan="2"><input type="button" value="추가" id="btn_add">
+				<input type="button" value="수정" id="btn_mod"> <input
+				type="button" value="삭제" id="btn_del"></td>
+		</tr>
+	</table>
+</body>
+</html>

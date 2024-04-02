@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>마커 생성하기</title>
+</head>
+<body>
+<div id="map" style="width:100%;height:350px;"></div>
+<p><em>지도를 클릭해주세요!</em></p> 
+<div id="clickLatlng"></div>
+
+<script type ="text/javascript" src="jquery-3.7.1.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d0d79f2bcc15e02b3e7a34833162401e"></script>
+<script>
+var mapContainer = document.getElementById('map');
+var mapOption = { 
+    center: new kakao.maps.LatLng(36.325054, 127.408916), 
+    level: 4 // 지도의 확대 레벨
+};
+var map = new kakao.maps.Map(mapContainer, mapOption);
+var list=[{"lat":36.32737149237191,"lng":127.40530345978327},{"lat":36.32733564817707,"lng":127.4052590739133},{"lat":36.327341919262075,"lng":127.40519743519329}]
+console.log(list)
+function pb_list(){
+	for(let i=0;i<list.length;i++){
+		var markerPosition  = new kakao.maps.LatLng(list[i].lat, list[i].lng); 
+		console.log(list[i].lat, list[i].lng)
+		var marker = new kakao.maps.Marker({
+		    position: markerPosition
+		});
+		marker.setMap(map);
+	}
+}
+var bounds = new kakao.maps.LatLngBounds();
+for(let i=0; i<list.length; i++) {
+    bounds.extend(new kakao.maps.LatLng(list[i].lat, list[i].lng));
+}
+map.setBounds(bounds);
+pb_list();
+</script>
+</body>
+</html>

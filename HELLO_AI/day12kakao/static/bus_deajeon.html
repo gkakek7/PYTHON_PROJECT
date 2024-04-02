@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>마커 생성하기</title>
+</head>
+<body>
+<div id="map" style="width:100%;height:350px;"></div>
+<div id="clickLatlng"></div>
+
+<script type ="text/javascript" src="jquery-3.7.1.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d0d79f2bcc15e02b3e7a34833162401e"></script>
+<script>
+var mapContainer = document.getElementById('map');
+var mapOption = { 
+    center: new kakao.maps.LatLng(36.325054, 127.408916), 
+    level: 4 // 지도의 확대 레벨
+};
+var map = new kakao.maps.Map(mapContainer, mapOption);
+var markers = []; // 마커를 담을 배열
+var linePath = []
+function pb_list(){
+	$.ajax({
+		type : 'GET',
+		url : '/bp_list',
+		dataType : 'json',
+		contentType : "application/json",
+		success : function(res) {
+			var list=res.list
+			let bus1=[]
+			let bus2=[]
+			for(let i=0; i<list.length;i++){
+				if(list[0]['bp_name']==list[i]){
+					bus1.push(new kakao.maps.LatLng(list[i].lat, list[i].lng),);
+				}else{
+					bus2.push(new kakao.maps.LatLng(list[i].lat, list[i].lng),);
+				}
+			}
+			var polyline = new kakao.maps.Polyline({
+			    path: bus1, // 선을 구성하는 좌표배열 입니다
+			    strokeWeight: 5, // 선의 두께 입니다
+			    strokeColor: '#FFAE00', // 선의 색깔입니다
+			    strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+			    strokeStyle: 'solid' // 선의 스타일입니다
+			});
+			var polyline2 = new kakao.maps.Polyline({
+			    path: bus2, // 선을 구성하는 좌표배열 입니다
+			    strokeWeight: 5, // 선의 두께 입니다
+			    strokeColor: '#FF0000', // 선의 색깔입니다
+			    strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+			    strokeStyle: 'solid' // 선의 스타일입니다
+			});
+			polyline.setMap(map); 
+			polyline2.setMap(map); 
+// 			for(let i=0;i<list.length;i++){
+// 				var markerPosition  = new kakao.maps.LatLng(list[i].lat, list[i].lng); 
+// 				var marker = new kakao.maps.Marker({
+// 				    position: markerPosition
+// 				});
+// 				marker.setMap(map);
+// 			}
+		},
+	});
+}
+pb_list();
+</script>
+</body>
+</html>
