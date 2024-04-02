@@ -1,0 +1,130 @@
+<script src="jquery-3.7.1.js"></script>
+<p id="my_disp"></p><br/>
+<input type="button" id="btn" value="  "/><br/>
+<a href="javascript:fn_upload()">upload</a>
+
+<script type="text/javascript">
+let media;
+var my_disp = document.getElementById('my_disp');
+var btn = document.getElementById('btn');
+var time;
+var lang = {
+	'mic_error': 'mic_error',
+	'press_to_start': 'press_to_start',
+	'recording': 'recording',
+	'play': 'play',
+	'stop': 'stop',
+	'download': 'download',
+	'use_https': 'in not working over insecure connection. Try to use HTTPS'
+};
+my_disp.innerHTML = lang.press_to_start;
+btn.onclick = function() {
+	if (status_rec == 'inactive') {
+		start();
+	} else if (status_rec == 'recording') {
+		stop();
+	}
+}
+
+if (navigator.mediaDevices === undefined) {
+	navigator.mediaDevices = {};
+}
+if (navigator.mediaDevices.getUserMedia === undefined) {
+	navigator.mediaDevices.getUserMedia = function(constrains) {
+		var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia
+		if (!getUserMedia) {
+			return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
+		}
+		return new Promise(function(resolve, reject) {
+			getUserMedia.call(navigator, constrains, resolve, reject);
+		});
+	}
+}
+
+
+if (navigator.mediaDevices.getUserMedia) {
+	var	audio = new Audio();
+	var	mediaRecorder;
+	var	chunks = [];
+	var	audioSrc;
+	var	blob;
+	var status_rec = 'inactive';
+	
+	function parseTime(sec) {
+		var h = parseInt(sec / 3600);
+		var m = parseInt(sec / 60);
+		var sec = sec - (h * 3600 + m * 60);
+		h = h == 0 ? '' : h + ':';
+		sec = sec < 10 ? '0' + sec : sec;
+		return h + m + ':' + sec;
+	}
+	function start() {
+		navigator.mediaDevices.getUserMedia({ 'audio': true }).then(function(stream) {
+			mediaRecorder = new MediaRecorder(stream);
+			mediaRecorder.start();
+			status_rec = 'recording';
+			my_disp.innerHTML = lang.recording;
+			if (navigator.vibrate) navigator.vibrate(150);
+			time = Math.ceil(new Date().getTime() / 1000);
+			mediaRecorder.ondataavailable = function(event) {
+				chunks.push(event.data);
+			}
+			mediaRecorder.onstop = function() {
+				stream.getTracks().forEach(function(track) { track.stop() });
+				blob = new Blob(chunks, {'type': 'audio/wav,codecs=opus'});
+				chunks = [];
+			}
+		}).catch(function(error) {
+			if (location.protocol != 'https:') {
+				my_disp.innerHTML = lang.mic_error + '<br>' + lang.use_https;
+			} else {
+				my_disp.innerHTML = lang.mic_error;
+			}
+			btn.disabled = true;
+		});
+	}
+	function stop() {
+		console.log("mediaRecorder", mediaRecorder);
+		mediaRecorder.stop();
+		status_rec = 'inactive';
+		if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+		var now = Math.ceil(new Date().getTime() / 1000);
+		var t = parseTime(now - time);
+		my_disp.innerHTML = '<a href="#" onclick="play(); return false;" class="txt_btn">' + lang.play + ' (' + t + 's)</a><br>' ;
+		mediaRecorder.ondataavailable = function(event) {
+			if (event.data && event.data.size > 0) {
+				var blob = event.data;
+				var file = new File([blob], 'record.wav', { type: 'audio/wav' });
+				media = file;
+			}
+		}
+	}
+
+
+} else {
+	if (location.protocol != 'https:') {
+		my_disp.innerHTML = lang.mic_error + '<br>' + lang.use_https;
+	} else {
+		my_disp.innerHTML = lang.mic_error;
+	}
+	btn.disabled = true;
+}
+
+
+function fn_upload(){
+	var formData = new FormData();
+	formData.append('mem_id', "S001");
+	console.log("media[0].files", media);
+	formData.append("file", media);
+	$.ajax({
+		url: 'http://localhost:5000/mic_recodrd_upload.ajax',
+		type: 'POST',
+		data: formData,
+		contentType: false,
+		processData: false,
+		success: function(response) {
+			console.log(response);
+		}
+	})
+}
+</script>

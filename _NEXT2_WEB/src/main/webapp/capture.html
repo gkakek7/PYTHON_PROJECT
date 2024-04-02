@@ -1,0 +1,44 @@
+
+<video id="video" width="640" height="480" autoplay></video>
+<a href="javascript:captureAndSend()" >캡쳐업로드</a>
+
+<script src="jquery-3.7.1.js"></script>
+<script type="text/javascript">
+
+	function captureAndSend() {
+	    canvas.width = video.videoWidth;
+	    canvas.height = video.videoHeight;
+	    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+	    canvas.toBlob(function(blob) {
+			formData.append('file', blob, 'image.jpg');
+			formData.append('mem_id', 'test');
+			jQuery.ajax({
+	        	url: "http://localhost:5000/cam_capture_upload.ajax",
+				processData: false,
+				contentType: false,
+				data: formData,
+				type: "POST",
+				success: function(response) {
+		        	console.log("파이썬 ", response);
+		    	}
+    		});
+		}, 'image/jpeg', 0.9);
+  	}
+
+	var video = document.getElementById('video');
+    var canvas = document.createElement('canvas');
+    var context = canvas.getContext('2d');
+    var formData = new FormData();
+
+    navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+		video.srcObject = stream;
+		video.play();
+    })
+    .catch(function(error) {
+    	console.error(error);
+    });
+
+
+</script>
+
+
