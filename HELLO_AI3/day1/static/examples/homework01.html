@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js webgl - geometry - cube</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link type="text/css" rel="stylesheet" href="dummy/main.css">
+	</head>
+	<body>
+		<script type="importmap">
+			{
+				"imports": {
+					"three": "../build/three.module.js",
+					"three/addons/": "./jsm/"
+				}
+			}
+		</script>
+
+		<script type="module">
+
+			import * as THREE from 'three';
+
+			let camera, scene, renderer;
+			let mesh_sun;
+			let mesh_earth;
+			let mesh_moon;
+			let R_SE=20;
+			let R_EM=5;
+			let t=0;
+			let t1=0;
+			init();
+			animate();
+
+			function init() {
+
+				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 100 );
+				camera.position.z = 40;
+				
+				console.log(camera.position.x,camera.position.y,camera.position.z)
+				scene = new THREE.Scene();
+
+				const texture_s = new THREE.TextureLoader().load( 'textures/planets/sun.jpg' );
+				texture_s.colorSpace = THREE.SRGBColorSpace;
+
+				const geometry_s = new THREE.SphereGeometry( 2, 40, 40 ); 
+				//geometry 겉 사진?
+				const material_s = new THREE.MeshBasicMaterial( { map: texture_s } ); 
+				//material형태
+				mesh_sun = new THREE.Mesh( geometry_s, material_s );
+				scene.add( mesh_sun );
+				
+				const texture_e = new THREE.TextureLoader().load( 'textures/planets/earth.jpg' );
+				texture_e.colorSpace = THREE.SRGBColorSpace;
+
+				const geometry_e = new THREE.SphereGeometry( 1, 40, 40 ); 
+				//geometry 겉 사진?
+				const material_e = new THREE.MeshBasicMaterial( { map: texture_e } ); 
+				//material형태
+				mesh_earth = new THREE.Mesh( geometry_e, material_e );
+				scene.add( mesh_earth );
+				
+				const texture_m = new THREE.TextureLoader().load( 'textures/planets/moon_1024.jpg' );
+				texture_m.colorSpace = THREE.SRGBColorSpace;
+
+				const geometry_m = new THREE.SphereGeometry( 0.5, 40, 40 ); 
+				//geometry 겉 사진?
+				const material_m = new THREE.MeshBasicMaterial( { map: texture_m } ); 
+				//material형태
+				mesh_moon = new THREE.Mesh( geometry_m, material_m );
+				scene.add( mesh_moon );
+				
+				console.log(mesh_earth.position)
+
+				renderer = new THREE.WebGLRenderer( { antialias: true } );
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				document.body.appendChild( renderer.domElement );
+
+				//
+
+				window.addEventListener( 'resize', onWindowResize );
+				//화면 맞추기
+			}
+
+			function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+	
+			function animate() {
+
+				requestAnimationFrame( animate );
+			
+				mesh_earth.position.x=R_SE*Math.cos(t);
+				mesh_earth.position.y=R_SE*Math.sin(t);
+				t+=0.01;
+				
+				mesh_moon.position.x=mesh_earth.position.x+R_EM*Math.cos(t*12);
+				mesh_moon.position.y=mesh_earth.position.y+R_EM*Math.sin(t*12);
+				
+				renderer.render( scene, camera );
+				camera.lookAt(mesh_earth.position)
+			}
+
+		</script>
+
+	</body>
+</html>

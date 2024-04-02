@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js webgl - geometry - cube</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link type="text/css" rel="stylesheet" href="main.css">
+	</head>
+	<body>
+		<script type="importmap">
+			{
+				"imports": {
+					"three": "../build/three.module.js",
+					"three/addons/": "./jsm/"
+				}
+			}
+		</script>
+
+		<script type="module">
+
+			import * as THREE from 'three';
+
+			let camera, scene, renderer;
+			let mesh;
+
+			init();
+			animate();
+
+			function init() {
+
+				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 100 );
+				camera.position.z = 2;
+				console.log("camera.position",camera.position);
+
+				scene = new THREE.Scene();
+				scene.background = new THREE.Color('white');
+
+				const texture = new THREE.TextureLoader().load( 'textures/ganada/{{i}}.png' );
+				texture.colorSpace = THREE.SRGBColorSpace;
+				const material = new THREE.MeshBasicMaterial( { map: texture, side: THREE.DoubleSide });
+				
+				
+				const geometry = new THREE.PlaneGeometry( 2, 2 ,1000,1000);
+				mesh = new THREE.Mesh( geometry, material );
+				scene.add( mesh );
+				
+				mesh.rotation.x = {{rx}};
+				mesh.rotation.y = {{ry}};
+				console.log("mesh.position",mesh.position);
+
+				renderer = new THREE.WebGLRenderer( { antialias: true } );
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				document.body.appendChild( renderer.domElement );
+
+				//
+
+				window.addEventListener( 'resize', onWindowResize );
+
+			}
+
+			function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+				console.log("animate");
+				//mesh.rotation.x += 0.005;
+				renderer.render( scene, camera );
+
+			}
+
+		</script>
+
+	</body>
+</html>
