@@ -1,0 +1,70 @@
+1. RAPFI22 2189
+    wins: 151+145, losses: 5+11, draws: 0+0
+    timeouts: 0, errors: 0, total games: 312
+    time/game: 362s, time/turn: 12850ms, move/game: 28
+
+2. KATAGOMO21.F 1947
+    wins: 128+126, losses: 28+30, draws: 0+0
+    timeouts: 0, errors: 0, total games: 312
+    time/game: 718s, time/turn: 21809ms, move/game: 33
+
+3. BARBAKAN 1929
+    wins: 124+126, losses: 32+30, draws: 0+0
+    timeouts: 0, errors: 0, total games: 312
+    time/game: 735s, time/turn: 24025ms, move/game: 31
+
+4. EMBRYO22 1842
+    wins: 113+116, losses: 43+40, draws: 0+0
+    timeouts: 0, errors: 0, total games: 312
+    time/game: 422s, time/turn: 13507ms, move/game: 31
+
+5. ALPHAGOMOKU.MK22 1795
+    wins: 108+109, losses: 48+47, draws: 0+0
+    timeouts: 0, errors: 0, total games: 312
+    time/game: 671s, time/turn: 20996ms, move/game: 32
+
+6. YIXIN18 1676
+    wins: 100+84, losses: 56+72, draws: 0+0
+    timeouts: 0, errors: 0, total games: 312
+    time/game: 438s, time/turn: 14452ms, move/game: 30
+
+7. PENTAZEN21.20 1645
+    wins: 91+84, losses: 65+72, draws: 0+0
+    timeouts: 0, errors: 0, total games: 312
+    time/game: 729s, time/turn: 23841ms, move/game: 31
+
+8. STARDUST 1454
+    wins: 59+58, losses: 97+98, draws: 0+0
+    timeouts: 0, errors: 0, total games: 312
+    time/game: 409s, time/turn: 16653ms, move/game: 25
+
+9. XOXO21.F 1385
+    wins: 53+43, losses: 103+113, draws: 0+0
+    timeouts: 0, errors: 0, total games: 312
+    time/game: 447s, time/turn: 16118ms, move/game: 28
+
+10. RENJUSOLVER.F 1369
+    wins: 53+38, losses: 103+118, draws: 0+0
+    timeouts: 0, errors: 0, total games: 312
+    time/game: 282s, time/turn: 10207ms, move/game: 28
+
+11. WINE18 1325
+    wins: 48+30, losses: 108+126, draws: 0+0
+    timeouts: 0, errors: 0, total games: 312
+    time/game: 626s, time/turn: 24289ms, move/game: 26
+
+12. HEWER18 1304
+    wins: 45+27, losses: 111+129, draws: 0+0
+    timeouts: 0, errors: 0, total games: 312
+    time/game: 394s, time/turn: 13877ms, move/game: 28
+
+13. SLOWRENJU20 1283
+    wins: 33+33, losses: 123+123, draws: 0+0
+    timeouts: 0, errors: 0, total games: 312
+    time/game: 551s, time/turn: 22916ms, move/game: 24
+
+14. TITO14 1257
+    wins: 38+21, losses: 118+135, draws: 0+0
+    timeouts: 0, errors: 0, total games: 312
+    time/game: 216s, time/turn: 8001ms, move/game: 27
+
