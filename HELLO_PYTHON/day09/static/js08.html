@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+#it_mine,#it_com,#it_result {
+	width: 30px;
+}
+</style>
+<script type="text/javascript">
+function myclick() {
+// 	var me = document.getElementById("it_mine").value;
+	var me = document.querySelector("#itMine").value;
+	
+	var com = parseInt(Math.random()*3)+1;
+	console.log(me);
+	console.log(com);
+	
+	if(me=="가위"){
+		me = 1;
+	} else if(me=="바위"){
+		me=2;
+	} else if(me=="보") {
+		me=3;
+	} else {
+		me="오류";
+	}
+	
+	if ((com - me === 1) || (com - me === -2)) {
+        itResult.value = "패배";
+    } else if (com === me) {
+        itResult.value = "무승부";
+    } else {
+        itResult.value = "승리";
+    }
+	
+	if(com==1) {
+		com = "가위";
+	} else if(com==2) {
+		com = "바위";
+	} else {
+		com = "보";
+	}
+	console.log(com);
+	itCom.value = com;
+}
+</script>
+</head>
+<body>
+<table border="1px">
+	<tr>
+		<td>나:</td>
+		<td>
+			<input type="text" id="itMine"/>
+		</td>
+	</tr>
+	<tr>
+		<td>컴:</td>
+		<td>
+			<input type="text" id="itCom"/>
+		</td>
+	</tr>
+	<tr>
+		<td>결과:</td>
+		<td>
+			<input type="text" id="itResult"/>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<input type="button" value="게임하기" onclick="myclick()">
+		</td>
+	</tr>
+</table>
+</body>
+</html>

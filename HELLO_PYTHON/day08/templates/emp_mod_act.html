@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	var cnt = {{cnt}};
+	if(cnt==1) {
+		alert("정상적으로 수정되었습니다.");
+		location.href = "emp_list"; // 앞으로 계속 쌓이는 명령
+	} else {
+		history.back(); // 뒤로 되돌려주는 명령
+// 		history.go(-2); // 전전 화면
+	}
+</script>
+</head>
+<body>
+</body>
+</html>

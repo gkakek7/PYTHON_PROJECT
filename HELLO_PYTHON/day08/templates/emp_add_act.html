@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	var cnt = "{{cnt}}"; // 에러처럼 보임 => 문자열로 감싸면 괜찮은데 이러면 비교할 때도 문자열로 1을 표현해야함
+	if(cnt=="1") {
+		alert("정상적으로 추가되었습니다.");
+		location.href = "emp_list"; // 앞으로 계속 쌓이는 명령
+	} else {
+		history.back(); // 뒤로 되돌려주는 명령
+// 		history.go(-2); // 전전 화면
+	}
+</script>
+</head>
+<body>
+</body>
+</html>

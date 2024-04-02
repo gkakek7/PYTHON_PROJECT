@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+#it_dan {
+	width : 30px;
+}
+</style>
+<script src="jquery-3.7.1.js"></script>
+<script type="text/javascript">
+function myclick() {
+	var dan = $('#it_dan').val();
+// 	var ddan = parseInt(dan);
+	var txt = "";
+	for(var i = 1; i<10; i++) {
+		txt += dan+" * "+i+" = "+dan*i+"\n";
+	}
+	$('#ta').html(txt);
+}
+$(document).ready(function() {
+	$('#btn').on('click', function(event) {
+		myclick();
+	});
+});
+</script>
+</head>
+<body>
+<table border="1px">
+	<tr>
+		<td>출력단수</td>
+		<td>
+			<input type="text" id="it_dan"/>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<input type="button" value="출력하기" id="btn"/>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<textarea id="ta" rows="20" cols="20"></textarea>
+		</td>
+	</tr>
+	
+</table>
+</body>
+</html>

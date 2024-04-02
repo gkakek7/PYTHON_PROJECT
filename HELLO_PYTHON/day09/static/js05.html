@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+function myclick() {
+	var arr = [
+		1,2,3,4,5, 6,7,8,9,10,
+		11,12,13,14,15,16,17,18,19,20,
+		21,22,23,24,25,26,27,28,29,30,
+		31,32,33,34,35,36,37,38,39,40,
+		41,42,43,44,45
+	];
+	
+	var rnd = 0;
+	var temp = 0;
+	for(var i=0; i<1000; i++){
+		rnd = parseInt(Math.random()*45);
+		temp = arr[0];
+		arr[0] = arr[rnd];
+		arr[rnd] = temp;
+	}
+	console.log(arr);
+
+	var tds = document.getElementsByClassName("mytd");
+	tds[0].innerHTML = arr[0];
+	tds[1].innerHTML = arr[1];
+	tds[2].innerHTML = arr[2];
+	tds[3].innerHTML = arr[3];
+	tds[4].innerHTML = arr[4];
+	tds[5].innerHTML = arr[5];
+}
+</script>
+</head>
+<body>
+<table border="1px">
+	<tr>
+		<td class="mytd">__</td>
+		<td class="mytd">__</td>
+		<td class="mytd">__</td>
+		<td class="mytd">__</td>
+		<td class="mytd">__</td>
+		<td class="mytd">__</td>
+	</tr>
+	<tr>
+		<td colspan="6"> 
+			<input type="button" value="로또 생성하기" onclick="myclick()"/>
+		</td>
+	</tr>
+</table>
+</body>
+</html>

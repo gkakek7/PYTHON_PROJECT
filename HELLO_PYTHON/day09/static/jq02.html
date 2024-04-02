@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+#ita,#itb,#itc {
+	width: 30px;
+}
+</style>
+<script src="jquery-3.7.1.js"></script>
+<script type="text/javascript">
+function myclick() {
+	var a = $('#ita').val();
+	var b = $('#itb').val();
+	var aa = parseInt(a);
+	var bb = parseInt(b);
+	
+	var sum = aa+bb;
+	$('#itc').val(sum);
+}
+$(document).ready(function() {
+	$('#btn').on('click', function(event) {
+		myclick();
+	});
+});
+</script>
+</head>
+<body>
+<input type="text" id="ita"/>
++
+<input type="text" id="itb"/>
+<input type="button" value="=" id="btn"/>
+<input type="text" id="itc"/>
+</body>
+</html>

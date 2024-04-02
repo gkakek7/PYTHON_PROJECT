@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+input[name=it_first],input[name=it_last] {
+	width : 40px;
+}
+#mydiv {
+	height: 200px;
+}
+</style>
+<script type="text/javascript">
+function myclick() {
+	var f = document.getElementsByName("it_first")[0].value;
+	var l = document.getElementsByName("it_last")[0].value;
+	console.log(f);
+	console.log(l);
+	
+	var txt = "";
+	for(var i=f; i<=l; i++){ // 시작과 끝 설정하고
+		txt += getStar(i); // 되돌려받고
+	}
+	mydiv.innerHTML += txt; // 누적된 값 출력해주기
+}
+
+function getStar(cnt) { // 찍고
+	var ret = "";
+	for(var i=0; i<cnt; i++) {
+		ret += "*";
+	}
+	ret +="<br>";
+	return ret; // 되돌려주고
+}
+</script>
+</head>
+<body>
+<table border="1px">
+	<tr>
+		<td>첫별수:</td>
+		<td>
+			<input type="text" name="it_first">
+		</td>
+	</tr>
+	<tr>
+		<td>끝별수:</td>
+		<td>
+			<input type="text" name="it_last">
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<input type="button" value="별그리기" onclick="myclick()">
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<div id="mydiv"></div>
+		</td>
+	</tr>
+</table>
+</body>
+</html>

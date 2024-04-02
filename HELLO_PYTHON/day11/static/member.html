@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+#m_id,#m_name,#mobile,#email {
+	width : 50px;
+}
+</style>
+<script src="jquery-3.7.1.js"></script>
+<script type="text/javascript">
+
+function fn_list(){
+	var param = "";
+	param += "dummy=" + Math.random();
+	param += "&domain_url=hello";
+	$.ajax({
+		type : 'POST',
+		url : '/mem_list',
+		data : param,
+		dataType : 'json',
+		contentType : "application/json",
+		success : function(res) {
+			console.log(res);
+			var list = res.list;
+			var txt = "";
+			for(var i=0; i<list.length; i++) {
+				var e = list[i];
+				txt += `
+					<tr>
+						<td><a href="javascript:fn_one('${e.m_id}')">${e.m_id}</a></td>
+						<td>${e.m_name}</td>
+						<td>${e.mobile}</td>
+						<td>${e.email}</td>
+					</tr>
+				`;
+			}
+			$("#my_tbody").html(txt);
+		}
+	});
+}
+$(document).ready(function() {
+	fn_list();
+});
+
+function fn_one(m_id) {
+	var param = {'m_id':m_id}
+	$.ajax({
+		type : "post",
+		url : "/mem_one",
+		data : JSON.stringify(param),
+		dataType : "json",
+		contentType : "application/json",
+		success : function(res) {
+			console.log(res);
+			var vo = res.vo;
+			$("#m_id").val(vo.m_id);
+			$("#m_name").val(vo.m_name);
+			$("#mobile").val(vo.mobile);
+			$("#email").val(vo.email);
+		}
+	});
+}
+
+
+function fn_add() {
+var param = {
+			'm_id': $("#m_id").val(),
+			'm_name':$("#m_name").val(),
+			'mobile':$("#mobile").val(),
+			'email':$("#email").val()
+	}
+	$.ajax({
+		type : "post",
+		url : "/mem_add",
+		data : JSON.stringify(param),
+		dataType : "json",
+		contentType : "application/json",
+		success : function(res) {
+			alert("정상 추가")
+			var cnt = res.cnt;
+			if(cnt ==1) {
+				alert("정상적으로 추가되었습니다.");
+				fn_list();
+				$("#m_id").val("");
+				$("#m_name").val("");
+				$("#mobile").val("");
+				$("#email").val("");
+			} else {
+				alert("추가도중 문제가 생겼습니다.");
+			}
+		},
+		error : function() {
+			alert("추가 실패");
+		}
+	});
+}
+$(document).ready(function() {
+	$('#btn_add').on('click',function(event){
+		fn_add();
+	});
+});
+
+
+function fn_mod() {
+	var param = {
+			'm_id': $("#m_id").val(),
+			'm_name':$("#m_name").val(),
+			'mobile':$("#mobile").val(),
+			'email':$("#email").val()
+	}
+	$.ajax({
+		type : "post",
+		url : "/mem_mod",
+		data : JSON.stringify(param),
+		dataType : "json",
+		contentType : "application/json",
+		success : function(res) {
+			var cnt = res.cnt;
+			console.log(cnt)
+			if(cnt ==1) {
+				alert("정상적으로 수정되었습니다.");
+				fn_list();
+				$("#m_id").val("");
+				$("#m_name").val("");
+				$("#mobile").val("");
+				$("#email").val("");
+			} else{
+				alert("수정도중 문제가 생겼습니다.");
+			}
+		},
+		error : function() {
+			alert("수정 실패");
+		}
+	});
+}
+$(document).ready(function() {
+	$('#btn_mod').on('click',function(event){
+		fn_mod();
+	});
+});
+
+
+function fn_del() {
+	var param = {'m_id':$('#m_id').val()}
+	var flag = confirm("한번 지워진 데이터는 복구불가합니다. 그래도 지우시겠습니까?");
+	if (!flag) {
+		return;
+	}
+	$.ajax({
+		url : "/mem_del",
+		data : JSON.stringify(param),
+		dataType : "json",
+		type : "post",
+		contentType : "application/json",
+		success : function(res) {
+			console.log(res);
+			var cnt = res.cnt;
+			if(cnt ==1) {
+				alert("정상적으로 삭제되었습니다.");
+				fn_list();
+				$("#m_id").val("");
+				$("#m_name").val("");
+				$("#mobile").val("");
+				$("#email").val("");
+			} else{
+				alert("삭제도중 문제가 생겼습니다.");
+			}
+		},
+		error : function() {
+			alert("삭제 실패");
+		}
+	});
+}
+$(document).ready(function() {
+	$('#btn_del').on('click',function(event){
+		fn_del();
+	});
+});
+
+</script>
+</head>
+
+<body>
+<table border="1px">
+	<tr>
+		<td>사번</td>
+		<td>이름</td>
+		<td>성별</td>
+		<td>주소</td>
+	</tr>
+	<tbody id="my_tbody">
+		<tr>
+			<td colspan="4">검색된 데이터가 없습니다.</td>
+		</tr>
+	</tbody>
+</table>
+<table border="1px">
+	<tr>
+		<td>사번</td>
+		<td>
+			<input type="text" id="m_id">
+		</td>
+	</tr>
+	<tr>
+		<td>이름</td>
+		<td>
+			<input type="text" id="m_name">
+		</td>
+	</tr>
+	<tr>
+		<td>성별</td>
+		<td>
+			<input type="text" id="mobile">
+		</td>
+	</tr>
+	<tr>
+		<td>주소</td>
+		<td>
+			<input type="text" id="email">
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<input type="button" value="추가" id="btn_add">
+			<input type="button" value="수정" id="btn_mod">
+			<input type="button" value="삭제" id="btn_del">
+		</td>
+	</tr>
+</table>
+</body>
+</html>
